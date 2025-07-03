@@ -3,8 +3,8 @@
 namespace Filament\Tables\Table\Concerns;
 
 use Closure;
-use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Arr;
 
 trait CanPaginateRecords
 {
@@ -116,7 +116,7 @@ trait CanPaginateRecords
         return (bool) $this->evaluate($this->hasExtremePaginationLinks);
     }
 
-    public function getPaginationCountQuery(): Builder | null
+    public function getPaginationCountQuery(): ?Builder
     {
         return $this->evaluate($this->paginationCountQuery);
     }
