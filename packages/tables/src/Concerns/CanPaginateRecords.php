@@ -30,8 +30,10 @@ trait CanPaginateRecords
     {
         $perPage = $this->getTableRecordsPerPage();
 
+        $paginationCountQuery = $this->getTable()->getPaginationCountQuery() ?? $query;
+
         if (version_compare(App::version(), '11.0', '>=')) {
-            $total = $query->toBase()->getCountForPagination();
+            $total = $paginationCountQuery->toBase()->getCountForPagination();
 
             /** @var LengthAwarePaginator $records */
             $records = $query->paginate(
@@ -43,7 +45,7 @@ trait CanPaginateRecords
         } else {
             /** @var LengthAwarePaginator $records */
             $records = $query->paginate(
-                perPage: ($perPage === 'all') ? $query->toBase()->getCountForPagination() : $perPage,
+                perPage: ($perPage === 'all') ? $paginationCountQuery->toBase()->getCountForPagination() : $perPage,
                 columns: ['*'],
                 pageName: $this->getTablePaginationPageName(),
             );
